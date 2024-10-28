@@ -8,10 +8,12 @@ public class conectaDAO {
 
     public Connection connectDB() {
         Connection conn = null;
+        String usuario = "root"; // Substitua pelo seu usuário
+        String senha = "@pedro05072000PE"; // Substitua pela sua senha
 
         try {
-            // Conexão com o banco de dados, verifique o nome do banco, usuário e senha
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Projeto_Leilao"); // Adicione a senha se necessário
+            conn = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/uc11?useSSL=false", usuario, senha);
         } catch (SQLException erro) {
             JOptionPane.showMessageDialog(null, "Erro ConectaDAO: " + erro.getMessage());
         }
