@@ -49,12 +49,40 @@ public class ProdutosDAO {
     }
     
     public ArrayList<ProdutosDTO> listarProdutos(){
-        
-        return listagem;
+       ArrayList<ProdutosDTO> listaProdutos = new ArrayList<>();
+        String sql = "SELECT * FROM produtos"; // Ajuste a consulta de acordo com sua tabela
+
+        try {
+            conn = new conectaDAO().connectDB(); // Cria uma nova instância de conectaDAO
+            prep = conn.prepareStatement(sql);
+            resultset = prep.executeQuery();
+
+            while (resultset.next()) {
+                ProdutosDTO produto = new ProdutosDTO();
+                produto.setId(resultset.getInt("id")); // Substitua pelo nome da coluna correspondente
+                produto.setNome(resultset.getString("nome")); // Substitua pelo nome da coluna correspondente
+                produto.setValor(resultset.getInt("valor")); // Use getDouble se valor for um decimal
+                produto.setStatus(resultset.getString("status")); // Substitua pelo nome da coluna correspondente
+                listaProdutos.add(produto);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao listar produtos: " + e.getMessage());
+            e.printStackTrace(); // Adicione log para depuração
+        } finally {
+            try {
+                if (resultset != null) resultset.close();
+                if (prep != null) prep.close();
+                if (conn != null) conn.close();
+            } catch (SQLException erro) {
+                JOptionPane.showMessageDialog(null, "Erro ao fechar conexão: " + erro.getMessage());
+            }
+        }
+        return listaProdutos;
     }
+}
     
     
     
         
-}
+
 
